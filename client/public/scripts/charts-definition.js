@@ -55,7 +55,7 @@ function createHumidityChart() {
     },
     series: [
       {
-        name: 'BME280',
+        name: 'DHT11',
       },
     ],
     title: {
@@ -97,7 +97,7 @@ function createPressureChart() {
     },
     series: [
       {
-        name: 'BME280',
+        name: 'DHT11',
       },
     ],
     title: {

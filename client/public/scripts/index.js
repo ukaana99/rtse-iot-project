@@ -92,7 +92,7 @@ const setupUI = (user) => {
     var chartRange = 0;
     // Get number of readings to plot saved on database (runs when the page first loads and whenever there's a change in the database)
     chartRef.on('value', (snapshot) => {
-      chartRange = 100;
+      chartRange = Number(snapshot.val());
       console.log(chartRange);
       // Delete all data from charts to update with new values when a new range is selected
       chartT.destroy();
@@ -217,11 +217,12 @@ const setupUI = (user) => {
         .on('child_added', function (snapshot) {
           if (snapshot.exists()) {
             var jsonData = snapshot.toJSON();
+            jsonData.timestamp = snapshot.key;
             console.log(jsonData);
             var temperature = jsonData.temperature_c;
             var humidity = jsonData.humidity;
             var pressure = jsonData.heat_index_c;
-            var timestamp = snapshot.key;
+            var timestamp = jsonData.timestamp;
             var content = '';
             content += '<tr>';
             content += '<td>' + epochToDateTime(timestamp) + '</td>';
@@ -254,6 +255,7 @@ const setupUI = (user) => {
           if (snapshot.exists()) {
             snapshot.forEach((element) => {
               var jsonData = element.toJSON();
+              jsonData.timestamp = element.key;
               dataList.push(jsonData); // create a list with all data
             });
             lastReadingTimestamp = dataList[0].timestamp; //oldest timestamp corresponds to the first on the list (oldest --> newest)
